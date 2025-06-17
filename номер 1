@@ -1,0 +1,66 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Singleton
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Logger log1 = Logger.GetLogger();
+            log1.Name = "Test";
+            Example();
+            Console.WriteLine(log1.Name);
+
+            ExampleClass ex = new ExampleClass();
+            ex.Test();
+            Console.WriteLine(log1.Name);
+        }
+
+        static void Example()
+        {
+            Logger log2 = Logger.GetLogger();
+            Console.WriteLine(log2.Name);
+            log2.Name += " Example";
+        }
+    }
+
+    public class ExampleClass
+    {
+        public void Test()
+        {
+            Logger log0 = Logger.GetLogger();
+            Console.WriteLine(log0.Name);
+            log0.Name += "Test";
+        }
+    }
+
+    public class Logger
+    {
+        private static Logger instance;
+
+        public string Name { get; set; }
+
+        private Logger()
+        {
+            Console.WriteLine("Логгер создан");
+        }
+
+        public static Logger GetLogger()
+        {
+            if (instance == null)
+            {
+                instance = new Logger();
+            }
+            return instance;
+        }
+    }
+}
+
+
+//1. Для чего используется данный паттерн?
+//Singleton гарантирует, что у класса есть только один экземпляр и предоставляет глобальную точку доступа к нему.
+
